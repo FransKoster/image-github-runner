@@ -1,5 +1,10 @@
 # GitHub Actions Self-Hosted Runner Container Image
 
+[![pre-commit (PR)](https://github.com/FransKoster/image-github-runner/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/FransKoster/image-github-runner/actions/workflows/pre-commit.yml)
+[![push (main)](https://github.com/FransKoster/image-github-runner/actions/workflows/push.yml/badge.svg)](https://github.com/FransKoster/image-github-runner/actions/workflows/push.yml)
+
+Pre-commit workflow: runs on pull requests. Push workflow: quick checks run on pushes to `main`.
+
 Build and test a container image for self-hosted GitHub runners designed for Kubernetes deployment with the [Actions Runner Controller](https://github.com/actions/actions-runner-controller).
 
 ## Features
@@ -50,6 +55,7 @@ To add custom packages to your runner image:
 4. Rebuild the image
 
 Example `packages.txt`:
+
 ```
 # Build tools
 build-essential
@@ -71,15 +77,15 @@ unzip
 
 ## Build Arguments
 
-| Argument | Default | Description |
-|----------|---------|-------------|
-| `RUNNER_VERSION` | Required | GitHub Actions runner version (e.g., `2.321.0`) |
-| `TARGETOS` | `linux` | Target operating system |
-| `TARGETARCH` | Auto-detected | Target architecture (amd64, arm64) |
-| `RUNNER_CONTAINER_HOOKS_VERSION` | `0.7.0` | Runner container hooks version for k8s volume mode |
-| `RUNNER_CONTAINER_HOOKS_VERSION_NOVOLUME` | `0.8.0` | Runner container hooks version for k8s novolume mode |
-| `DOCKER_VERSION` | `29.0.1` | Docker version to install |
-| `BUILDX_VERSION` | `0.30.0` | Docker Buildx version to install |
+| Argument                                  | Default       | Description                                          |
+| ----------------------------------------- | ------------- | ---------------------------------------------------- |
+| `RUNNER_VERSION`                          | Required      | GitHub Actions runner version (e.g., `2.321.0`)      |
+| `TARGETOS`                                | `linux`       | Target operating system                              |
+| `TARGETARCH`                              | Auto-detected | Target architecture (amd64, arm64)                   |
+| `RUNNER_CONTAINER_HOOKS_VERSION`          | `0.7.0`       | Runner container hooks version for k8s volume mode   |
+| `RUNNER_CONTAINER_HOOKS_VERSION_NOVOLUME` | `0.8.0`       | Runner container hooks version for k8s novolume mode |
+| `DOCKER_VERSION`                          | `29.0.1`      | Docker version to install                            |
+| `BUILDX_VERSION`                          | `0.30.0`      | Docker Buildx version to install                     |
 
 ## GitHub Workflows
 
@@ -100,6 +106,17 @@ This repository includes two automated workflows:
 - Checks custom package installation
 - Runs security vulnerability scans with Trivy
 - Lints Dockerfile with hadolint
+
+## CI
+
+This repository runs several GitHub Actions workflows to enforce quality and automate builds:
+
+- `pre-commit` (`.github/workflows/pre-commit.yml`): runs on pull requests and enforces formatting, linting, and repository hooks via `pre-commit`.
+- `push` (`.github/workflows/push.yml`): lightweight checks that run on `push` to `main` — currently runs `hadolint` on the `Dockerfile` and executes `pre-commit` on changed files to keep pushes fast.
+- `build` (`.github/workflows/build.yml`): builds multi-architecture images and publishes them to the registry (triggers on pushes/tags/PRs and supports manual dispatch).
+- `test` (`.github/workflows/test.yml`): performs image validation, package checks, vulnerability scans (Trivy), and other test steps.
+
+Badges at the top of this README show the current status of the `pre-commit` (PR) and `push` workflows.
 
 ## Development
 

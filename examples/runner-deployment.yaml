@@ -6,27 +6,27 @@ metadata:
 spec:
   # Number of runner replicas
   replicas: 2
-  
+
   template:
     spec:
       # Repository or organization
       # Use ONLY ONE of the following (comment out the other):
       repository: your-org/your-repo
       # organization: your-org
-      
+
       # Custom runner image
       image: ghcr.io/franskoster/image-github-runner:latest
       imagePullPolicy: Always
-      
+
       # Enable Docker-in-Docker
       dockerdWithinRunnerContainer: true
-      
+
       # Runner labels (optional)
       labels:
         - custom-runner
         - docker
         - kubernetes
-      
+
       # Resource limits and requests
       resources:
         limits:
@@ -37,16 +37,16 @@ spec:
           cpu: "1.0"
           memory: "2Gi"
           ephemeral-storage: "10Gi"
-      
+
       # Environment variables (optional)
       env:
         - name: RUNNER_FEATURE_FLAG_EPHEMERAL
           value: "true"
-      
+
       # Node selector (optional)
       # nodeSelector:
       #   kubernetes.io/os: linux
-      
+
       # Tolerations (optional)
       # tolerations:
       #   - key: "workload"

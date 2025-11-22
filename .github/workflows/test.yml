@@ -20,7 +20,7 @@ jobs:
       matrix:
         platform: [linux/amd64]
         runner_version: ['2.321.0']
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,26 +44,26 @@ jobs:
       - name: Test image structure
         run: |
           echo "Testing image structure..."
-          
+
           # Check if image exists
           docker images runner-test:latest
-          
+
           # Check if runner user exists
           docker run --rm runner-test:latest id runner
-          
+
           # Check if runner files are present
           docker run --rm runner-test:latest ls -la /home/runner/bin
-          
+
           # Check if docker is installed
           docker run --rm runner-test:latest which docker
-          
+
           # Check environment variables
           docker run --rm runner-test:latest env | grep -E "RUNNER_|ACTIONS_|ImageOS"
 
       - name: Test custom packages
         run: |
           echo "Testing custom packages installation..."
-          
+
           # Check if packages from packages.txt are installed
           docker run --rm runner-test:latest which python3
           docker run --rm runner-test:latest which pip3
@@ -99,7 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

@@ -164,13 +164,13 @@ jobs:
     runs-on: self-hosted  # Use default label
     # OR specify custom labels:
     # runs-on: [self-hosted, custom-runner, docker-enabled]
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Build with Docker
         run: docker build -t myapp:latest .
-      
+
       - name: Run Python script
         run: python3 --version
 ```
