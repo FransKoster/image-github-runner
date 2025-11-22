@@ -1,0 +1,108 @@
+name: Test Container Image
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [linux/amd64]
+        runner_version: ['2.321.0']
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build test image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          load: true
+          tags: runner-test:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            RUNNER_VERSION=${{ matrix.runner_version }}
+            TARGETOS=linux
+
+      - name: Test image structure
+        run: |
+          echo "Testing image structure..."
+          
+          # Check if image exists
+          docker images runner-test:latest
+          
+          # Check if runner user exists
+          docker run --rm runner-test:latest id runner
+          
+          # Check if runner files are present
+          docker run --rm runner-test:latest ls -la /home/runner/bin
+          
+          # Check if docker is installed
+          docker run --rm runner-test:latest which docker
+          
+          # Check environment variables
+          docker run --rm runner-test:latest env | grep -E "RUNNER_|ACTIONS_|ImageOS"
+
+      - name: Test custom packages
+        run: |
+          echo "Testing custom packages installation..."
+          
+          # Check if packages from packages.txt are installed
+          docker run --rm runner-test:latest which python3
+          docker run --rm runner-test:latest which pip3
+          docker run --rm runner-test:latest which make
+          docker run --rm runner-test:latest which wget
+          docker run --rm runner-test:latest which zip
+
+      - name: Test git installation
+        run: |
+          echo "Testing git installation..."
+          docker run --rm runner-test:latest git --version
+
+      - name: Test sudo access
+        run: |
+          echo "Testing sudo access..."
+          docker run --rm runner-test:latest sudo echo "Sudo works"
+
+      - name: Test runner version
+        run: |
+          echo "Testing runner version..."
+          docker run --rm runner-test:latest cat /home/runner/.runner
+
+      - name: Scan for vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: runner-test:latest
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+  test-dockerfile:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          ignore: DL3008
+          failure-threshold: error

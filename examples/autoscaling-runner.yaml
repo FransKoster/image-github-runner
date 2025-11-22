@@ -1,0 +1,41 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: autoscaling-runner
+  namespace: default
+spec:
+  template:
+    spec:
+      repository: your-org/your-repo
+      image: ghcr.io/franskoster/image-github-runner:latest
+      dockerdWithinRunnerContainer: true
+      
+      resources:
+        limits:
+          cpu: "2.0"
+          memory: "4Gi"
+        requests:
+          cpu: "1.0"
+          memory: "2Gi"
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: autoscaling-runner-autoscaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: autoscaling-runner
+  
+  # Minimum and maximum number of runners
+  minReplicas: 1
+  maxReplicas: 10
+  
+  # Scale based on workflow queue
+  metrics:
+  - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+    repositoryNames:
+    - your-org/your-repo
+  
+  # Scale down delay (optional)
+  scaleDownDelaySecondsAfterScaleOut: 300

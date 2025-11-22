@@ -1,0 +1,28 @@
+# Build artifacts
+*.tar.gz
+*.zip
+*.tgz
+
+# Docker
+.docker
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Temporary files
+*.tmp
+.tmp/
+temp/
+
+# Test artifacts
+test-results/
+coverage/
