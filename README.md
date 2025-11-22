@@ -76,7 +76,8 @@ unzip
 | `RUNNER_VERSION` | Required | GitHub Actions runner version (e.g., `2.321.0`) |
 | `TARGETOS` | `linux` | Target operating system |
 | `TARGETARCH` | Auto-detected | Target architecture (amd64, arm64) |
-| `RUNNER_CONTAINER_HOOKS_VERSION` | `0.7.0` | Runner container hooks version |
+| `RUNNER_CONTAINER_HOOKS_VERSION` | `0.7.0` | Runner container hooks version for k8s volume mode |
+| `RUNNER_CONTAINER_HOOKS_VERSION_NOVOLUME` | `0.8.0` | Runner container hooks version for k8s novolume mode |
 | `DOCKER_VERSION` | `29.0.1` | Docker version to install |
 | `BUILDX_VERSION` | `0.30.0` | Docker Buildx version to install |
 
