@@ -10,7 +10,7 @@ spec:
   template:
     spec:
       # Repository or organization
-      # Use ONE of the following:
+      # Use ONLY ONE of the following (comment out the other):
       repository: your-org/your-repo
       # organization: your-org
       

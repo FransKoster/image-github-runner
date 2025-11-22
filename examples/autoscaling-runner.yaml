@@ -35,7 +35,7 @@ spec:
   metrics:
   - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
     repositoryNames:
-    - your-org/your-repo
+    - your-org/your-repo  # Must match the repository in RunnerDeployment above
   
   # Scale down delay (optional)
   scaleDownDelaySecondsAfterScaleOut: 300
