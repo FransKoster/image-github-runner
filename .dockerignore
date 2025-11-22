@@ -1,0 +1,22 @@
+# Docker build artifacts
+*.tar.gz
+*.zip
+
+# Git
+.git
+.gitignore
+
+# Documentation (not needed in the image)
+*.md
+LICENSE
+
+# GitHub workflows
+.github
+
+# IDE files
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db

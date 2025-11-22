@@ -1,0 +1,19 @@
+# Additional packages to install in the runner image
+# Add one package per line. Lines starting with # are ignored.
+# Example packages commonly used in CI/CD:
+
+# Build tools
+build-essential
+make
+
+# Python and pip
+python3
+python3-pip
+
+# Node.js dependencies (uncomment if needed)
+# nodejs
+# npm
+
+# Additional utilities
+wget
+zip
