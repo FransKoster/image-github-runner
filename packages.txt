@@ -15,5 +15,6 @@ python3-pip
 # npm
 
 # Additional utilities
+git
 wget
 zip
