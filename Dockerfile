@@ -63,6 +63,8 @@ RUN add-apt-repository ppa:git-core/ppa \
     && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 # Install custom packages from packages.txt if it exists
 # This makes it easy to add additional packages to the runner image
 COPY packages.txt* /tmp/
