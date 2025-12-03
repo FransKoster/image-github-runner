@@ -16,7 +16,7 @@ on:
       runner_version:
         description: 'Runner version to build'
         required: false
-        default: '2.321.0'
+        default: '2.333.0'
 
 env:
   REGISTRY: ghcr.io
@@ -63,7 +63,7 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "version=${{ github.event.inputs.runner_version }}" >> $GITHUB_OUTPUT
           else
-            echo "version=2.321.0" >> $GITHUB_OUTPUT
+            echo "version=2.333.0" >> $GITHUB_OUTPUT
           fi
 
       - name: Build and push Docker image
