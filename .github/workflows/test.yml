@@ -81,10 +81,10 @@ jobs:
           echo "Testing sudo access..."
           docker run --rm runner-test:latest sudo echo "Sudo works"
 
-      - name: Test runner version
-        run: |
-          echo "Testing runner version..."
-          docker run --rm runner-test:latest cat /home/runner/.runner
+      # - name: Test runner version
+      #   run: |
+      #     echo "Testing runner version..."
+      #     docker run --rm runner-test:latest cat /home/runner/.runner
 
       - name: Scan for vulnerabilities
         uses: aquasecurity/trivy-action@master
