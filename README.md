@@ -22,7 +22,7 @@ Build and test a container image for self-hosted GitHub runners designed for Kub
 
 ```bash
 docker build -t github-runner:latest \
-  --build-arg RUNNER_VERSION=2.321.0 \
+  --build-arg RUNNER_VERSION=2.333.0 \
   --build-arg TARGETOS=linux \
   .
 ```
